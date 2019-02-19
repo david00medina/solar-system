@@ -109,7 +109,7 @@ public class Spaceship {
 
     private void intro() {
         parent.stroke(labelRGB[0], labelRGB[1], labelRGB[2]);
-        if(intro < 40) parent.text("PULSE A, W, S o D para moverse", -150,-150,-200);
+        if(0 < intro && intro < 40) parent.text("PULSE A, W, S o D para moverse", -150,-150,-200);
         else if (intro > 40 && intro < 80) parent.text("PULSE + o - para acelerar y desacelerar",-150,-150,-200);
 
         if (intro < 80) intro++;

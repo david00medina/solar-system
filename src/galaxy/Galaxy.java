@@ -35,7 +35,7 @@ public class Galaxy extends PApplet {
         spaceship = new Spaceship(this, spaceship_model, new PVector(width/2.f,height/2.f,600.f),
                 1.5f, .2f, labelRGB);
 
-        PImage sun_mat = loadImage("res/planets-texture/download/2k_sun.jpg");
+        PImage sun_mat = loadImage("res/planets-texture/2k_sun.jpg");
         sun = new Planet(this, "Sun", sun_mat, new PVector(0,0,0), 110f, .0f,
                 .0f, .0f, .0f, 2.5f, .0f, .0f, labelRGB);
 
