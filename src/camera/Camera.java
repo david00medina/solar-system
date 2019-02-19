@@ -8,7 +8,6 @@ public class Camera {
     private PVector pos;
     private PVector center;
     private PVector rotation;
-//    private float FOV = PApplet.PI / 3.f;
 
     public Camera(PApplet parent, PVector pos, PVector center, PVector rotation) {
         this.parent = parent;

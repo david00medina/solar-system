@@ -107,7 +107,7 @@ public class Planet {
         parent.rotateY(-translationDegree);
         parent.rotateZ(-ORBIT_TILT);
 
-        BodyLabel bl = new BodyLabel(parent, PLANET_LABEL, /*matrix,*/ radius + 100, 1, labelRGB);
+        BodyLabel bl = new BodyLabel(parent, PLANET_LABEL, radius + 100, 1, labelRGB);
         bl.refresh();
     }
 

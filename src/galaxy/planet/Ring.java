@@ -97,6 +97,4 @@ public class Ring {
             else
                 return new PVectorUV(x, y, z, MATERIAL.width, 0);
     }
-
-
 }

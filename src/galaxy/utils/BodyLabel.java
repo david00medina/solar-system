@@ -2,7 +2,6 @@ package galaxy.utils;
 
 import processing.core.PApplet;
 import processing.core.PMatrix;
-import processing.core.PVector;
 
 public class BodyLabel extends PApplet {
     private final String LABEL_TXT;
@@ -14,8 +13,8 @@ public class BodyLabel extends PApplet {
     private int lineWeight;
     private int[] rgb;
 
-    public BodyLabel(PApplet parent, String msg, /*PMatrix pos,*/ float lineLength, int lineWeight, int[] rgb) {
-        this.LABEL_TXT = msg;
+    public BodyLabel(PApplet parent, String label, float lineLength, int lineWeight, int[] rgb) {
+        this.LABEL_TXT = label;
 
         this.parent = parent;
         this.pos = pos;
