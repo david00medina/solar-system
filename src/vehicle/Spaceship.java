@@ -4,10 +4,10 @@ import camera.Camera;
 import processing.core.*;
 
 public class Spaceship {
-    private final static float POS_X_SPAN = 5.f;
-    private final static float POS_Y_SPAN = -50.f;
-    private final static float POS_Z_SPAN = 200.f;
-    private final static float CENTER_DISTACE = -200.f;
+    private final static float POS_X_SPAN = 10.f;
+    private final static float POS_Y_SPAN = -40.f;
+    private final static float POS_Z_SPAN = 130.f;
+    private final static float CENTER_DISTANCE = -500.f;
     private final static float MAX_SPEED = 10.f;
     private final static float SPEED_STEP = .25f;
     private final static float PITCH_STEP = PApplet.radians(.5f);
@@ -39,12 +39,12 @@ public class Spaceship {
     private int[] labelRGB;
 
 
-    public Spaceship(PApplet parent, PShape spaceship, PVector pos, float speed, float scale, int[] labelRGB) {
+    public Spaceship(PApplet parent, PShape spaceship, PVector pos, float speed, float scale, int[] labelRGB, Camera cam) {
         this.parent = parent;
         this.spaceship = spaceship;
         this.pos = pos;
         this.speed = speed;
-        this.cam = new Camera(parent);
+        this.cam = cam;
 
         headingX = PApplet.cos(-90);
         headingY = PApplet.cos(90);
@@ -58,20 +58,18 @@ public class Spaceship {
 
         this.spaceship.scale(scale);
         this.spaceship.rotateX(PApplet.radians(180));
-        this.spaceship.rotateY(PApplet.radians(3));
         setupCameraView();
     }
 
     public void refresh() {
         moveForward();
 
-        cam.setPosition(pos.x + POS_X_SPAN, pos.y + POS_Y_SPAN, pos.z + POS_Z_SPAN);
-        cam.setCenter(pos.x, pos.y ,pos.z + CENTER_DISTACE);
-        cam.refresh();
+        updateCamera();
 
         parent.pushMatrix();
-        parent.translate(pos.x, pos.y, pos.z);
+        parent.translate(pos.x + POS_X_SPAN, pos.y, pos.z);
 
+        parent.text("VELOCIDAD: " + speed, 50, 100, -200);
         intro();
 
         parent.rotateX(pitch * ROTATION_ANIMATION);
@@ -80,10 +78,20 @@ public class Spaceship {
         parent.popMatrix();
     }
 
+    private void updateCamera() {
+        cam.setPosition(pos.x, pos.y + POS_Y_SPAN, pos.z + POS_Z_SPAN);
+        cam.setCenter(pos.x, pos.y ,pos.z + CENTER_DISTANCE);
+        cam.setPerspective(PApplet.PI/3.f,
+                parent.width/parent.height,
+                cam.CAMERAZ/30.f,
+                cam.CAMERAZ * 30.f);
+        cam.refresh();
+    }
+
     private void setupCameraView() {
-        cam.setPosition(pos.x + POS_X_SPAN, pos.y + POS_Y_SPAN, pos.z + POS_Z_SPAN);
-        cam.setCenter(pos.x, pos.y ,pos.z + CENTER_DISTACE);
-        cam.setRotation(.0f, 1.f, 0.f);
+        cam.setPosition(pos.x, pos.y + POS_Y_SPAN, pos.z /*+ POS_Z_SPAN*/);
+        cam.setCenter(pos.x, pos.y ,pos.z + CENTER_DISTANCE);
+        cam.setRotation(.0f, 1f, 0.f);
         cam.refresh();
     }
 

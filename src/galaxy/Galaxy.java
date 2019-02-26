@@ -1,5 +1,6 @@
 package galaxy;
 
+import camera.Camera;
 import vehicle.Spaceship;
 import galaxy.planet.Planet;
 import galaxy.planet.Ring;
@@ -13,28 +14,56 @@ public class Galaxy extends PApplet {
     private PShape universe;
     private Planet sun;
     private Spaceship spaceship;
+    private Camera cam;
+    private int [] labelRGB;
 
     public void settings() {
         size(1200, 1200, P3D);
     }
 
     public void setup() {
+        initialization();
+
+        generateUniverse();
+
+        generateSolarSystem();
+
+        createSpaceship();
+    }
+
+    public void draw() {
+        pollKeyboard();
+
+        spaceship.refresh();
+
+        translate(width/2.f, height/2.f, 0);
+
+        shape(universe);
+
+        sun.refresh();
+    }
+
+    private void initialization() {
         background(200);
 
         noStroke();
 
+        cam = new Camera(this);
+
+        labelRGB = new int[]{150, 150, 150};
+
         SoundFile soundtrack = new SoundFile(this, "res/sounds/Orbit Beat 130.wav");
 
+        soundtrack.loop();
+    }
+
+    private void generateUniverse() {
         universe = createShape(SPHERE, 1000);
         PImage universe_mat = loadImage("res/planets-texture/2k_stars_milky_way.jpg");
         universe.setTexture(universe_mat);
+    }
 
-        int[] labelRGB = new int[]{150, 150, 150};
-
-        PShape spaceship_model = loadShape("res/Falcon t45 Rescue ship/Falcon t45 Rescue ship flying.obj");
-        spaceship = new Spaceship(this, spaceship_model, new PVector(width/2.f,height/2.f,600.f),
-                1.5f, .2f, labelRGB);
-
+    private void generateSolarSystem() {
         PImage sun_mat = loadImage("res/planets-texture/2k_sun.jpg");
         sun = new Planet(this, "Sun", sun_mat, new PVector(0,0,0), 110f, .0f,
                 .0f, .0f, .0f, 2.5f, .0f, .0f, labelRGB);
@@ -100,21 +129,15 @@ public class Galaxy extends PApplet {
         sun.addSatellite(saturn);
         sun.addSatellite(uranus);
         sun.addSatellite(neptune);
-
-        soundtrack.play();
     }
 
-    public void draw() {
-        spaceship.refresh();
-
-        translate(width/2.f, height/2.f, 0);
-
-        shape(universe);
-
-        sun.refresh();
+    private void createSpaceship() {
+        PShape spaceship_model = loadShape("res/Falcon t45 Rescue ship/Falcon t45 Rescue ship flying.obj");
+        spaceship = new Spaceship(this, spaceship_model, new PVector(width/2.f,height/2.f,600.f),
+                1.5f, .2f, labelRGB, cam);
     }
 
-    public void keyTyped() {
+    private void pollKeyboard() {
         if (key == '+') {
             spaceship.updateSpeed(spaceship.POWER_UP);
         } else if (key == '-') {
@@ -128,6 +151,10 @@ public class Galaxy extends PApplet {
         } else if (key == 'd') {
             spaceship.updateRoll(spaceship.RIGHT);
         }
+    }
+
+    public void keyReleased() {
+        key = '\0';
     }
 
     public static void main(String... args) {
